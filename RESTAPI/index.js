@@ -1,6 +1,10 @@
 const express = require('express');
+const bodyParser = require('body-parser')
 
 const app = express();
+
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: true }));
 
 var books = [
     { 
@@ -32,14 +36,11 @@ app.get('/book/:id', (req, res)=>{
 });
 
 app.post('/book/add', (req, res)=>{
-
-    let {_id, _title, _author} = req.body
-
-    if (_id && _title && _author){
+    if (req.body){
         books.push({
-            id: _id,
-            title: _title,
-            author: _author
+            id: req.body.id,
+            title: req.body.title,
+            author: req.body.author
         })
         return res.status(200).json({})
     }
